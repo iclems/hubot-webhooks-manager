@@ -63,8 +63,7 @@ module.exports = (robot) ->
     try
       webhook = jwt.verify token, WEBHOOKS_MANAGER_SECRET
       room = webhook.room
-      if (debug)
-        robot.logger.info "Webhooks manager received: ", req
+      robot.logger.debug "Webhooks manager received: ", req
       if (robot.brain.data.webhooksManager[room][keyFromToken(token)])
         robot.emit "incoming-webhook:"+webhook.service, webhook, req
     catch error
