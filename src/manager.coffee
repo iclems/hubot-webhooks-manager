@@ -23,7 +23,7 @@ module.exports = (robot) ->
     info = { service: service, room: room }
     token = jwt.sign info, WEBHOOKS_MANAGER_SECRET
     robot.brain.data.webhooksManager[room] ?= {}
-    robot.brain.data.webhooksManager[room][keyFromToken(token)] = _.extend{ service: service, ts: new Date().getTime(), token: token }
+    robot.brain.data.webhooksManager[room][keyFromToken(token)] = { service: service, token: token, ts: new Date().getTime() }
     return token
 
   removeWebhook = (token, room) ->
