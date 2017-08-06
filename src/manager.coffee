@@ -38,6 +38,22 @@ module.exports = (robot) ->
       error = e
     return error
 
+  processIncomingWebhook = (token, req) ->
+    try
+      webhook = jwt.verify token, WEBHOOKS_MANAGER_SECRET
+      room = webhook.room
+      robot.logger.debug "Webhooks manager received: ", req
+      if robot.brain.data.webhooksManager[room][keyFromToken(token)]
+        eventName = "incoming-webhook:"+webhook.service
+        if robot.events.listenerCount eventName
+          robot.emit "incoming-webhook:"+webhook.service, webhook, req
+        else
+          message = _.isObject(req.body) ? _.map(req.body, (v, k) -> ( "#{k}: #{v}")).join("\n") : req.body
+          robot.reply { room: webhook.room }, "#{webhook.service}: #{message}"
+    catch error
+      robot.logger.error "Webhooks manager error: #{error.stack}. Request: #{req.body}"
+
+
   robot.respond /add\s+webhook\s+(\w+)/i, (msg) ->
     service = msg.match[1]
     room = envelope_key msg.envelope
@@ -60,13 +76,5 @@ module.exports = (robot) ->
 
   robot.router.post INCOMING_PATH+":token", (req, res) ->
     token = req.params.token
-    try
-      webhook = jwt.verify token, WEBHOOKS_MANAGER_SECRET
-      room = webhook.room
-      robot.logger.debug "Webhooks manager received: ", req
-      if (robot.brain.data.webhooksManager[room][keyFromToken(token)])
-        robot.emit "incoming-webhook:"+webhook.service, webhook, req
-    catch error
-      robot.logger.error "Webhooks manager error: #{error.stack}. Request: #{req.body}"
-
+    processIncomingWebhook(token, req)
     res.end ""
