@@ -1,5 +1,9 @@
-# Required: WEHOOKS_MANAGER_SECRET
-# Optional: HUBOT_URL
+# Required: WEHOOKS_MANAGER_SECRET, HUBOT_URL
+#
+# Commands:
+#   hubot add webhook github
+#   hubot list webhooks
+#   hubot remove webhook token
 
 jwt = require "jsonwebtoken"
 _ = require "underscore"
