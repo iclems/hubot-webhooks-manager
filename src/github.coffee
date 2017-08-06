@@ -11,4 +11,6 @@ module.exports = (robot) ->
         message = "[#{payload.repository.full_name}] #{payload.sender.login} pushed #{payload.commits.length} commits #{payload.compare}"
       when "pull_request"
         message = "[#{payload.repository.full_name}] #{payload.sender.login} #{payload.action} a pull request *#{payload.pull_request.title}* #{payload.pull_request.html_url}"
+      when "delete"
+        message = "[#{payload.repository.full_name}] #{payload.sender.login} deleted #{payload.ref_type} *#{payload.ref}*"
     robot.reply { room: info.room }, message
