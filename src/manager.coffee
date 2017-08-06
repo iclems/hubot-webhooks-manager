@@ -80,7 +80,7 @@ module.exports = (robot) ->
     room = envelope_key msg.envelope
     webhooks = robot.brain.data.webhooksManager[room] || {}
     if _.keys(webhooks).length
-      msg.send _.map(webhooks, (w, k) -> ( w.service+": "+w.token )).join "\n"
+      msg.send _.map(webhooks, (w, k) -> ( w.service+": "+w.token )).join "\n\n"
     else
       msg.send "No webhook configured for this room."
 
