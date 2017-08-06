@@ -52,7 +52,7 @@ module.exports = (robot) ->
             message = _.map(req.body, (v, k) -> ( "#{k}: #{v}" ) ).join("\n")
           else
             message = req.body
-          robot.reply { room: webhook.room }, "#{webhook.service}: #{message}"
+          robot.reply { room: webhook.room }, "[webhook #{webhook.service}] #{message}"
     catch error
       robot.logger.error "Webhooks manager error: #{error.stack}. Request: #{req.body}"
 
