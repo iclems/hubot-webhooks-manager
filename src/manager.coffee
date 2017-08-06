@@ -7,7 +7,7 @@ _ = require "underscore"
 HUBOT_URL = process.env.HUBOT_URL || ""
 WEBHOOKS_MANAGER_SECRET = process.env.WEBHOOKS_MANAGER_SECRET || ""
 
-INCOMING_PATH = "hubot/webhooks-manager/incoming/"
+INCOMING_PATH = "/hubot/webhooks-manager/incoming/"
 
 envelope_key = (e) ->
   e.room || e.user.i
@@ -62,7 +62,7 @@ module.exports = (robot) ->
     token = req.params.token
     try
       webhook = jwt.verify token, WEBHOOKS_MANAGER_SECRET
-      room = info.room
+      room = webhook.room
       if (debug)
         robot.logger.info "Webhooks manager received: ", req
       if (robot.brain.data.webhooksManager[room][keyFromToken(token)])
