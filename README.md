@@ -7,8 +7,8 @@ A webhook can later be removed and blocked from the room.
 
 Commands: 
 
-_add webhook service_: will generate a new unique URL for this service (e.g. github, jira) to be registered in your service as the webhook URL (expecting POST requests). The service is used to support specific formatters for webhook messages rendering. 
+**add webhook service**: will generate a new unique URL for this service (e.g. github, jira) to be registered in your service as the webhook URL (expecting POST requests). The service is used to support specific formatters for webhook messages rendering. 
 
-_list webhooks_: provides the list of all registered tokens and services. Useful to remove a webhook or register the URL again.
+**list webhooks**: provides the list of all registered tokens and services. Useful to remove a webhook or register the URL again.
 
-_remove webhook token_: the exact token must be provided from the right conversation to block a previously registered webhook.
+**remove webhook token**: the exact token must be provided from the right conversation to block a previously registered webhook.
