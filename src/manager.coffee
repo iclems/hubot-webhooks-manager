@@ -58,7 +58,7 @@ module.exports = (robot) ->
     else
       msg.send "No webhook configured for this room."
 
-  robot.router.post "/"+INCOMING_PATH+":token", (req, res) ->
+  robot.router.post INCOMING_PATH+":token", (req, res) ->
     token = req.params.token
     try
       webhook = jwt.verify token, WEBHOOKS_MANAGER_SECRET
