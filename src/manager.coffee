@@ -65,13 +65,16 @@ module.exports = (robot) ->
     service = msg.match[1]
     room = envelope_key msg.envelope
     token = addWebhook(service, room)
-    msg.send "Webhook configured. Listening for "+service+" at URL: "+HUBOT_URL+INCOMING_PATH+token
+    msg.send "Webhook configured for #{service}. Now listening for POST requests at URL: "+HUBOT_URL+INCOMING_PATH+token
 
   robot.respond /remove\s+webhook\s+([^\s]+)/i, (msg) ->
     token = msg.match[1]
     room = envelope_key msg.envelope
     error = removeWebhook(token, room)
-    msg.send "Webhook "+error?error:"removed."
+    if error
+      msg.send "Could not remove webhook. Please verify tokens for this room."
+    else
+      msg.send "Webhook removed."
 
   robot.respond /(list|show|all)\s+webhook(s)?/i, (msg) ->
     room = envelope_key msg.envelope
