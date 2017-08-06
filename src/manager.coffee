@@ -48,7 +48,10 @@ module.exports = (robot) ->
         if robot.events.listenerCount eventName
           robot.emit "incoming-webhook:"+webhook.service, webhook, req
         else
-          message = _.isObject(req.body) ? _.map(req.body, (v, k) -> ( "#{k}: #{v}")).join("\n") : req.body
+          if _.isObject req.body
+            message = _.map(req.body, (v, k) -> ( "#{k}: #{v}" ) ).join("\n")
+          else
+            message = req.body
           robot.reply { room: webhook.room }, "#{webhook.service}: #{message}"
     catch error
       robot.logger.error "Webhooks manager error: #{error.stack}. Request: #{req.body}"
