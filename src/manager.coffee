@@ -52,6 +52,8 @@ module.exports = (robot) ->
         if robot.events.listenerCount eventName
           robot.emit "incoming-webhook:"+webhook.service, webhook, req
         else
+          if _.isString req.body
+            message = req.body
           if _.isObject req.body
             message = _.map(req.body, (v, k) -> ( "#{k}: #{v}" ) ).join("\n")
           else
